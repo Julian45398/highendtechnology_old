@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "highendtechnology:item/enderium_hoe"
+  }
+}

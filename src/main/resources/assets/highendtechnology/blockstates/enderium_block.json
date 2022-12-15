@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "lit=true": {"model": "highendtechnology:block/enderium_block_shining"},
+    "lit=false": {"model": "highendtechnology:block/enderium_block_dim"}
+  }
+}

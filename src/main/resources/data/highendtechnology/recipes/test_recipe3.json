@@ -1,0 +1,27 @@
+{
+  "type": "highendtechnology:assembling",
+  "pattern": [
+    "   ",
+    " # ",
+    "   "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "assembly_items": [
+    {
+      "item": "minecraft:diorite",
+      "count": 8
+    },
+    {
+      "item": "minecraft:emerald",
+      "count": 2
+    }
+  ],
+  "result": {
+    "item": "minecraft:coal_block",
+    "count": 12
+  }
+}

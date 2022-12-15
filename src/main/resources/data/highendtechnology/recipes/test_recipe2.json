@@ -1,0 +1,26 @@
+{
+  "type": "highendtechnology:assembling",
+  "pattern": [
+    "   ",
+    " # ",
+    "   "
+  ],
+  "key": {
+    "#": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "assembly_items": [
+    {
+      "tag": "minecraft:planks",
+      "count": 8
+    },
+    {
+      "item": "minecraft:emerald"
+    }
+  ],
+  "result": {
+    "item": "minecraft:diamond_block",
+    "count": 12
+  }
+}

@@ -1,0 +1,24 @@
+{ "itemGroup.highendtechnology": "High End Technology",
+
+
+  "item.highendtechnology.enderium_ingot": "Enderium Ingot",
+  "item.highendtechnology.raw_enderium": "Raw Enderium",
+
+  "item.highendtechnology.enderium_sword": "Enderium Sword",
+  "item.highendtechnology.enderium_pickaxe": "Enderium Pickaxe",
+  "item.highendtechnology.enderium_axe": "Enderium Axe",
+  "item.highendtechnology.enderium_shovel": "Enderium Shovel",
+  "item.highendtechnology.enderium_hoe": "Enderium Hoe",
+
+  "item.highendtechnology.enderium_helmet": "Enderium Helmet",
+  "item.highendtechnology.enderium_chestplate": "Enderium Chestplate",
+  "item.highendtechnology.enderium_leggings": "Enderium Leggings",
+  "item.highendtechnology.enderium_boots": "Enderium Boots",
+
+
+
+  "block.highendtechnology.enderium_block": "Enderium Block",
+  "block.highendtechnology.assembly_station": "Assembly Station",
+  "block.highendtechnology.enderium_ore": "Enderium Ore"
+
+}
