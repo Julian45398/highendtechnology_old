@@ -1,7 +1,7 @@
 package com.akroZora.highendtechnology;
 
 import com.akroZora.highendtechnology.block.ModBlocks;
-import com.akroZora.highendtechnology.entity.ModBlockEntities;
+import com.akroZora.highendtechnology.tile.ModBlockEntities;
 import com.akroZora.highendtechnology.item.ModItems;
 import com.akroZora.highendtechnology.recipe.ModRecipes;
 import com.akroZora.highendtechnology.screen.AssemblyStationScreen;

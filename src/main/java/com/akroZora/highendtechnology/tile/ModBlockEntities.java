@@ -1,8 +1,8 @@
-package com.akroZora.highendtechnology.entity;
+package com.akroZora.highendtechnology.tile;
 
 import com.akroZora.highendtechnology.HighEndTechnology;
 import com.akroZora.highendtechnology.block.ModBlocks;
-import com.akroZora.highendtechnology.entity.custom.AssemblyStationBlockEntity;
+import com.akroZora.highendtechnology.tile.custom.AssemblyStationBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;

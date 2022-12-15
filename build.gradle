@@ -113,15 +113,20 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
+
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 dependencies {
 
     minecraft 'net.minecraftforge:forge:1.18.2-40.1.27'
 
-    compileOnly "mekanism:Mekanism:${mekanism_version}:api"
-
-    runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")// core
+    implementation fg.deobf("curse.maven:mekanism-268560:3875976")
     
 }
 

@@ -1,7 +1,6 @@
 package com.akroZora.highendtechnology.block.custom;
 
-import com.akroZora.highendtechnology.entity.ModBlockEntities;
-import com.akroZora.highendtechnology.entity.custom.AssemblyStationBlockEntity;
+import com.akroZora.highendtechnology.tile.custom.AssemblyStationBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;

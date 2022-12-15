@@ -1,7 +1,7 @@
 package com.akroZora.highendtechnology.screen;
 
 import com.akroZora.highendtechnology.block.ModBlocks;
-import com.akroZora.highendtechnology.entity.custom.AssemblyStationBlockEntity;
+import com.akroZora.highendtechnology.tile.custom.AssemblyStationBlockEntity;
 import com.akroZora.highendtechnology.screen.slot.ModResultSlot;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
