@@ -1,5 +1,19 @@
 {
   "variants": {
-    "": {"model": "highendtechnology:block/assembly_station"}
+    "facing=east": {
+      "model": "highendtechnology:block/assembly_station",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "highendtechnology:block/assembly_station"
+    },
+    "facing=south": {
+      "model": "highendtechnology:block/assembly_station",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "highendtechnology:block/assembly_station",
+      "y": 270
+    }
   }
 }

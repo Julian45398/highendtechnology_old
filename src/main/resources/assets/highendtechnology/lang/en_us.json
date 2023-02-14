@@ -15,10 +15,30 @@
   "item.highendtechnology.enderium_leggings": "Enderium Leggings",
   "item.highendtechnology.enderium_boots": "Enderium Boots",
 
+  "item.highendtechnology.assembly_formula": "Assembly Formula",
+
 
 
   "block.highendtechnology.enderium_block": "Enderium Block",
   "block.highendtechnology.assembly_station": "Assembly Station",
-  "block.highendtechnology.enderium_ore": "Enderium Ore"
+  "block.highendtechnology.enderium_ore": "Enderium Ore",
+
+  "block.highendtechnology.machine_assemblicator": "Machine Assemblicator",
+  "block.highendtechnology.acacia_crate": "Acacia Crate",
+  "block.highendtechnology.birch_crate": "Birch Crate",
+  "block.highendtechnology.crimson_crate": "Crimson Crate",
+  "block.highendtechnology.dark_oak_crate": "Dark Oak Crate",
+  "block.highendtechnology.jungle_crate": "Jungle Crate",
+  "block.highendtechnology.oak_crate": "Oak Crate",
+  "block.highendtechnology.spruce_crate": "Spruce Crate",
+  "block.highendtechnology.warped_crate": "Warped Crate",
+
+
+  "container.highendtechnology.machine_assemblicator": "Machine Assemblicator",
+
+  "container.highendtechnology.oak_crate": "Storage Crate",
+
+  "description.highendtechnology.machine_crafting_bench": "Advanced Crafting Bench for Crafting Machines and Machine Parts",
+  "description.highendtechnology.storage_crate": "Storage Block work in Progress"
 
 }

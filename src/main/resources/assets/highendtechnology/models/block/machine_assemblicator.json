@@ -1,0 +1,11 @@
+{"parent":"mekanism:block/machine",
+  "textures":{
+    "sides":"highendtechnology:block/machine_assemblicator/right",
+    "front":"highendtechnology:block/machine_assemblicator/front",
+    "west":"highendtechnology:block/machine_assemblicator/right",
+    "east":"highendtechnology:block/machine_assemblicator/left",
+    "south":"highendtechnology:block/machine_assemblicator/back",
+    "up":"highendtechnology:block/machine_assemblicator/top",
+    "down":"highendtechnology:block/machine_assemblicator/bottom"
+  }
+}

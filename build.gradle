@@ -44,6 +44,7 @@ minecraft {
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
+
             mods {
                 highendtechnology {
                     source sourceSets.main
@@ -105,6 +106,8 @@ minecraft {
     }
 }
 
+
+
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
@@ -113,6 +116,16 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
+    maven {
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
 
     maven {
         url "https://cursemaven.com"
@@ -126,7 +139,13 @@ dependencies {
 
     minecraft 'net.minecraftforge:forge:1.18.2-40.1.27'
 
+    // compile against the JEI API but do not include it at runtime
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
+    // at runtime, use the full JEI jar
+    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
+
     implementation fg.deobf("curse.maven:mekanism-268560:3875976")
+
     
 }
 

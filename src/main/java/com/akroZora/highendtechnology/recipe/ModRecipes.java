@@ -14,6 +14,7 @@ public class ModRecipes {
     public static final RegistryObject<RecipeSerializer<AssemblyStationRecipe>> ASSEMBLY_SERIALIZER =
             SERIALIZERS.register("assembling", () -> AssemblyStationRecipe.Serializer.INSTANCE);
 
+
     public static void register(IEventBus eventBus) {
         SERIALIZERS.register(eventBus);
     }

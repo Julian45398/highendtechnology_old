@@ -15,7 +15,7 @@ public class AssemblyStationScreen extends AbstractContainerScreen<AssemblyStati
 
     public AssemblyStationScreen(AssemblyStationMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
-        imageHeight=202;
+        this.imageHeight=202;
         this.inventoryLabelY=imageHeight-94;
     }
 

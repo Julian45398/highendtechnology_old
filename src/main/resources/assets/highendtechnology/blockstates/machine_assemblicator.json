@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north":{"model":"highendtechnology:block/machine_assemblicator"},
+    "facing=south":{"model":"highendtechnology:block/machine_assemblicator","y":180},
+    "facing=east":{"model":"highendtechnology:block/machine_assemblicator","y":90},
+    "facing=west":{"model":"highendtechnology:block/machine_assemblicator","y":-90}
+  }
+}

@@ -1,23 +1,35 @@
 package com.akroZora.highendtechnology.screen;
 
-import com.akroZora.highendtechnology.block.ModBlocks;
+import com.akroZora.highendtechnology.registration.HighendtechnologyBlocks;
+import com.akroZora.highendtechnology.recipe.AssemblyContainer;
+import com.akroZora.highendtechnology.recipe.AssemblyStationRecipe;
+import com.akroZora.highendtechnology.screen.slot.AssemblyStationResultSlot;
 import com.akroZora.highendtechnology.tile.custom.AssemblyStationBlockEntity;
-import com.akroZora.highendtechnology.screen.slot.ModResultSlot;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
+
+import java.util.Optional;
 
 public class AssemblyStationMenu extends AbstractContainerMenu {
     private final AssemblyStationBlockEntity blockEntity;
     private final Level level;
+    private final Player player;
+    private final AssemblyContainer craftingContainer;
+    private final ResultContainer resultContainer = new ResultContainer();
+    private final SimpleContainer storageContainer;
+    private boolean doUpdate = true;
+
 
     public AssemblyStationMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
         this(pContainerId, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()));
@@ -26,37 +38,130 @@ public class AssemblyStationMenu extends AbstractContainerMenu {
     public AssemblyStationMenu(int pContainerId, Inventory inv, BlockEntity entity) {
         super(ModMenuTypes.ASSEMBLY_STATION_MENU.get(), pContainerId);
         checkContainerSize(inv, AssemblyStationBlockEntity.totalSlots);
-        blockEntity = ((AssemblyStationBlockEntity) entity);
+
+        this.blockEntity = ((AssemblyStationBlockEntity) entity);
         this.level = inv.player.level;
-        //Matrix Slots index 0-8 absolute index 0-8
-        this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,1).ifPresent(handler -> {
-            for (int i=0;i<3;i++){
-                for(int j=0;j<3;j++){
-                    this.addSlot(new SlotItemHandler(handler, 3*i+j, 17+18*j, 18*i+17));
-                }
+        this.player = inv.player;
+        this.storageContainer = new SimpleContainer(9);
+        this.craftingContainer = new AssemblyContainer(this,3);
+        //Output Slot
+        this.addSlot(new AssemblyStationResultSlot(player,this,0, 135, 35));
+        //Grid Slots
+        for (int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                int index = 3*i+j;
+                this.addSlot(new Slot(this.craftingContainer, index, 17+18*j, 18*i+17));
+                this.craftingContainer.setItem(index,this.blockEntity.assemblyItemHandler.getStackInSlot(index));
             }
-        });
-        //Output Slot index 0 absolute index 9
-        this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,2).ifPresent(handler -> {
-            this.addSlot(new ModResultSlot(handler,0, 135, 35));
-        });
-        //Assembly Slot index 0-5 absolute index 10-15
-        this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,3).ifPresent(handler -> {
-            //Assembly Item Slots index 0-2 absolute index 10-12
-            for (int i = 0; i<AssemblyStationBlockEntity.assemblyItemSlots; i++){
-                this.addSlot(new SlotItemHandler(handler, i, 77, 17+18*i));
-            }
-        });
-        //Storage Slot indexes 0-8 absolute index 16-24
-        this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,4).ifPresent(handler -> {
-            for (int i = 0; i<AssemblyStationBlockEntity.storageSlots; i++){
-                this.addSlot(new SlotItemHandler(handler, i, 18*i+8, 84));
-            }
-        });
+        }
+        //Assembly Slots
+        for (int i = 0; i<3; i++){
+            int index = i+9;
+            this.addSlot(new Slot(this.craftingContainer, index, 77, 17+18*i));
+            this.craftingContainer.setItem(index,this.blockEntity.assemblyItemHandler.getStackInSlot(index));
+        }
+        //Storage Slots
+        for (int i = 0; i<AssemblyStationBlockEntity.storageSlots; i++){
+            this.addSlot(new Slot(this.storageContainer, i, 18*i+8, 84));
+            this.storageContainer.setItem(i,this.blockEntity.storageItemHandler.getStackInSlot(i));
+        }
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
     }
 
+    protected static void slotChangedCraftingGrid(AbstractContainerMenu pMenu, Level pLevel, Player pPlayer, CraftingContainer pContainer, ResultContainer pResult) {
+        if (!pLevel.isClientSide) {
+            ServerPlayer serverplayer = (ServerPlayer)pPlayer;
+            ItemStack itemStack;
+            if(hasAssemblyItems(pContainer)){
+                itemStack = checkAssemblyRecipe(pLevel,pContainer,pResult,serverplayer);
+            }else{
+                itemStack = checkCraftingRecipe(pLevel,pContainer,pResult,serverplayer);
+            }
+            pResult.setItem(0, itemStack);
+            pMenu.setRemoteSlot(0, itemStack);
+            serverplayer.connection.send(new ClientboundContainerSetSlotPacket(pMenu.containerId, pMenu.incrementStateId(), 0, itemStack));
+        }
+    }
+    protected static boolean hasAssemblyItems(CraftingContainer pContainer){
+        for (int i = 9; i < 12; i++) {
+            if(pContainer.getItem(i)!=ItemStack.EMPTY){
+                return true;
+            }
+        }
+        return false;
+    }
+    protected static ItemStack checkAssemblyRecipe(Level pLevel,CraftingContainer pContainer,ResultContainer pResult,ServerPlayer serverplayer){
+        Optional<AssemblyStationRecipe> optional = pLevel.getServer().getRecipeManager().getRecipeFor(AssemblyStationRecipe.Type.INSTANCE, pContainer, pLevel);
+        if (optional.isPresent()) {
+            AssemblyStationRecipe assemblyRecipe = optional.get();
+            if (pResult.setRecipeUsed(pLevel, serverplayer, assemblyRecipe)) {
+                return assemblyRecipe.assemble(pContainer);
+            }
+        }
+        return ItemStack.EMPTY;
+    }
+    protected static ItemStack checkCraftingRecipe(Level pLevel,CraftingContainer pContainer,ResultContainer pResult,ServerPlayer serverplayer){
+        Optional<CraftingRecipe> optional = pLevel.getServer().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, pContainer, pLevel);
+        if (optional.isPresent()) {
+            CraftingRecipe craftingrecipe = optional.get();
+            if (pResult.setRecipeUsed(pLevel, serverplayer, craftingrecipe)) {
+                return craftingrecipe.assemble(pContainer);
+            }
+        }
+        return ItemStack.EMPTY;
+    }
+
+    public void setDoUpdate(boolean doUpdate) {
+        this.doUpdate = doUpdate;
+    }
+    public boolean getDoUpdate() {
+        return this.doUpdate;
+    }
+
+
+    public void slotsChanged(Container pInventory) {
+        if(pInventory==this.storageContainer){
+            return;
+        }
+        if(this.doUpdate){
+            slotChangedCraftingGrid(this, this.level, this.player, this.craftingContainer, this.resultContainer);
+        }
+    }
+
+    @Override
+    public void removed(Player pPlayer) {
+        super.removed(pPlayer);
+        for (int i = 0; i < 12; i++) {
+            this.blockEntity.assemblyItemHandler.setStackInSlot(i,this.craftingContainer.getItem(i));
+        }
+        for (int i = 0; i < 9; i++) {
+            this.blockEntity.storageItemHandler.setStackInSlot(i,this.storageContainer.getItem(i));
+        }
+    }
+
+    @Override
+    public boolean canTakeItemForPickAll(ItemStack pStack, Slot pSlot) {
+        return pSlot.container != this.resultContainer && super.canTakeItemForPickAll(pStack, pSlot);
+    }
+    /**
+     * Returns the Crafting Container
+     */
+    public CraftingContainer getCraftingContainer() {
+        return this.craftingContainer;
+    }
+    /**
+     * Returns the Result Container
+     */
+    public ResultContainer getResultContainer() {
+        return this.resultContainer;
+    }
+    /**
+     * Returns the Storage Container
+     */
+    public SimpleContainer getStorageContainer() {
+        return this.storageContainer;
+    }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
     // must assign a slot number to each of the slots used by the GUI.
@@ -70,11 +175,11 @@ public class AssemblyStationMenu extends AbstractContainerMenu {
     private static final int PLAYER_INVENTORY_COLUMN_COUNT = 9;
     private static final int PLAYER_INVENTORY_SLOT_COUNT = PLAYER_INVENTORY_COLUMN_COUNT * PLAYER_INVENTORY_ROW_COUNT;
     private static final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
-    private static final int VANILLA_FIRST_SLOT_INDEX = AssemblyStationBlockEntity.totalSlots;
-    private static final int TE_INVENTORY_FIRST_SLOT_INDEX = AssemblyStationBlockEntity.totalSlots-AssemblyStationBlockEntity.storageSlots;
+    private static final int VANILLA_FIRST_SLOT_INDEX = 22;
+    private static final int TE_INVENTORY_FIRST_SLOT_INDEX = 13;
 
     // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = AssemblyStationBlockEntity.totalSlots;  // must be the number of slots you have!
+    private static final int TE_INVENTORY_SLOT_COUNT = 22;  // must be the number of slots you have!
 
     @Override
     public ItemStack quickMoveStack(Player playerIn, int index) {
@@ -111,7 +216,7 @@ public class AssemblyStationMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player pPlayer) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
-                pPlayer, ModBlocks.ASSEMBLY_STATION.get());
+                pPlayer, HighendtechnologyBlocks.ASSEMBLY_STATION.getBlock());
     }
 
     private void addPlayerInventory(Inventory playerInventory) {

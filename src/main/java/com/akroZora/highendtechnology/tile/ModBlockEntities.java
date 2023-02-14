@@ -1,7 +1,7 @@
 package com.akroZora.highendtechnology.tile;
 
 import com.akroZora.highendtechnology.HighEndTechnology;
-import com.akroZora.highendtechnology.block.ModBlocks;
+import com.akroZora.highendtechnology.registration.HighendtechnologyBlocks;
 import com.akroZora.highendtechnology.tile.custom.AssemblyStationBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -17,7 +17,8 @@ public class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<AssemblyStationBlockEntity>> ASSEMBLY_STATION_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("assembly_station_block_entity", () ->
                     BlockEntityType.Builder.of(AssemblyStationBlockEntity::new,
-                            ModBlocks.ASSEMBLY_STATION.get()).build(null));
+                            HighendtechnologyBlocks.ASSEMBLY_STATION.getBlock()).build(null));
+
 
 
     public static void register(IEventBus eventBus) {

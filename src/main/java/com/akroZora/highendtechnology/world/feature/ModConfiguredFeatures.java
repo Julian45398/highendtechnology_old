@@ -1,6 +1,6 @@
 package com.akroZora.highendtechnology.world.feature;
 
-import com.akroZora.highendtechnology.block.ModBlocks;
+import com.akroZora.highendtechnology.registration.HighendtechnologyBlocks;
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.world.level.block.Blocks;
@@ -14,7 +14,7 @@ import java.util.List;
 public class ModConfiguredFeatures {
 
     public static final List<OreConfiguration.TargetBlockState> ENDERIUM_ORES = List.of(
-            OreConfiguration.target(new BlockMatchTest(Blocks.END_STONE), ModBlocks.ENDERIUM_ORE.get().defaultBlockState()));
+            OreConfiguration.target(new BlockMatchTest(Blocks.END_STONE), HighendtechnologyBlocks.ENDERIUM_ORE.getBlock().defaultBlockState()));
 
     public static final Holder<ConfiguredFeature<OreConfiguration, ?>> ENDERIUM_ORE = FeatureUtils.register("enderium_ore",
             Feature.ORE, new OreConfiguration(ENDERIUM_ORES,30));

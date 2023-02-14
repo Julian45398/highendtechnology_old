@@ -1,6 +1,11 @@
-{
-	"parent": "block/cube_all",
-	"textures": {
-		"all": "highendtechnology:block/assembly_station"
+{"parent":"mekanism:block/machine",
+	"textures":{
+		"sides":"highendtechnology:block/assembly_station/right",
+		"front":"highendtechnology:block/assembly_station/front",
+		"west":"highendtechnology:block/assembly_station/right",
+		"east":"highendtechnology:block/assembly_station/left",
+		"south":"highendtechnology:block/assembly_station/back",
+		"up":"highendtechnology:block/assembly_station/top",
+		"down":"highendtechnology:block/assembly_station/bottom"
 	}
 }

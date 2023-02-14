@@ -1,27 +1,29 @@
 {
   "type": "highendtechnology:assembling",
   "pattern": [
-    "   ",
-    " # ",
-    "   "
+    "# #",
+    " s ",
+    "# #"
   ],
   "key": {
     "#": {
-      "item": "minecraft:diamond"
+      "item": "highendtechnology:raw_enderium"
+    },
+    "s": {
+      "item": "minecraft:milk_bucket"
     }
   },
   "assembly_items": [
     {
       "item": "minecraft:diorite",
-      "count": 8
+      "count": 2
     },
     {
-      "item": "minecraft:emerald",
-      "count": 2
+      "item": "minecraft:milk_bucket"
     }
   ],
   "result": {
-    "item": "minecraft:coal_block",
-    "count": 12
+    "item": "highendtechnology:enderium_block",
+    "count": 4
   }
 }
